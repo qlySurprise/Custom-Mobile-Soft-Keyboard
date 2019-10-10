@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .btn {
+            position: absolute;
+            bottom: -50%;
+            transition: all 0.5s;
+            width: 100%;
+        }
+
+        .btn.os {
+            width: 100%;
+            bottom: 0;
+            transition: all 0.5s;
+        }
+
+        .selectCarTit {
+            height: 27px;
+        }
+
+        .closeSelectCarBox {
+            color: #007dff;
+            float: left;
+            font-size: 17px;
+            margin-left: 17px;
+        }
+
+        .key_ok {
+            float: right;
+            color: #007dff;
+            font-size: 17px;
+            margin-right: 17px;
+        }
+
+        .number {
+            width: 265px;
+            float: left;
+            margin-left: 6px;
+            margin-top: 8px;
+        }
+
+        .number li {
+            display: inline-block;
+            width: 83px;
+            background: #fff;
+            height: 37px;
+            line-height: 37px;
+            text-align: center;
+            margin-bottom: 11px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-left: 1.5px;
+        }
+
+        .english-left {
+            float: left;
+            width: 42px;
+            margin-left: 7px;
+            margin-top: 8px;
+        }
+
+        .english-left li {
+            display: inline-block;
+            width: 41px;
+            background: #dde0e5;
+            height: 37px;
+            line-height: 37px;
+            text-align: center;
+            margin-bottom: 11px;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .english-right {
+            float: left;
+            width: 42px;
+            margin-left: 6px;
+            margin-top: 8px;
+        }
+
+        .english-right li {
+            display: inline-block;
+            width: 41px;
+            background: #dde0e5;
+            height: 37px;
+            line-height: 37px;
+            text-align: center;
+            margin-bottom: 11px;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .selectCarCon {
+            height: 244px;
+            background: #d0d4da;
+        }
+
+        .english-right .delect_back {
+            height: 82px !important;
+            line-height: 82px !important;
+            background:url('./keyClose.png') no-repeat;
+            background-size: 100%;
+        }
+        .number .keyIcon{
+            background:url('./keyIcon.png') no-repeat;
+            background-size: 100%;
+            height: 37px;
+        }
+    </style>
+</head>
+
+<body>
+    <input class="selectCarBtn" readonly="readonly" type="text" placeholder="输入车牌号">
+
+    <div class="popup OpacityUp popup-selectCarBox">
+        <div class="btn">
+            <div class="selectCarTit">
+                <div class="closeSelectCarBox">取消</div>
+                <li class="key_ok">确定</li>
+            </div>
+            <div class="selectCarCon">
+                <ul class="english-left">
+                    <li>A</li>
+                    <li>B</li>
+                    <li>C</li>
+                    <li style="height: 82px; line-height: 82px;">U</li>
+                </ul>
+                <ul class="number">
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>0</li>
+                    <li style="width: 173.5px;">-</li>
+                    <li style="width: 173.5px;">P</li>
+                    <li style="float: right;"><div class="keyIcon"></div></li>
+                </ul>
+                <ul class="english-right">
+                    <li>D</li>
+                    <li>E</li>
+                    <li>F</li>
+                    <li class="delect_back"></li>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="./jquery-1.12.1.min.js"></script>
+    <script>
+        // 自定义键盘事件
+        // $(".selectCarBtn").click(function() {
+        //     $.popup(".popup-selectCarBox");
+        // });
+        // $(".closeSelectCarBox").click(function() {
+        //     $.closeModal(".popup-selectCarBox");
+        // });
+        // $(".popup-selectCarBox").click(function(e) {
+        //     $.closeModal(".popup-selectCarBox");
+        // })
+        $(".selectCarCon").click(function(e) {
+            e.stopPropagation();
+        });
+        var carNum = "";
+        $(".selectCarCon li").not('.delect_back,.key_ok').click(function() {
+            carNum = carNum + $(this).text();
+            $(".selectCarBtn").val(carNum);
+        });
+        $(".selectCarCon li.delect_back").click(function() {
+            var num = carNum.substr(0, carNum.length - 1);
+            $(".selectCarBtn").val(num);
+            carNum = num;
+        });
+        $(".selectCarCon li.key_ok").click(function() {
+            $.closeModal(".popup-selectCarBox");
+        });
+
+        $('.selectCarBtn').click(function() {
+            $('.selectCarBtn').attr('readonly',true);
+            $('.btn').addClass('os')
+        })
+        $('.closeSelectCarBox').click(function() {
+            $('.btn').removeClass('os')
+        });
+        $('.key_ok').click(function() {
+            $('.btn').removeClass('os')
+        });
+        $('.keyIcon').click(function() {
+            $('.selectCarBtn').attr('readonly',false);
+            $('.btn').removeClass('os');
+            $('.selectCarBtn').focus();
+        });
+       
+    </script>
+</body>
+
+</html>
